@@ -1,0 +1,37 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion project.ext.defaultCompileSdkVersion
+    buildToolsVersion project.ext.defaultBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion project.ext.defaultMinSdkVersion
+        targetSdkVersion project.ext.defaultTargetSdkVersion
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile "com.android.support:appcompat-v7:$project.ext.defaultAppCompatVersion"
+    compile "com.facebook.react:react-native:$project.ext.defaultReactNativeVersion"
+    compile ("com.facebook.android:facebook-android-sdk:[4,5)"){
+        exclude group: 'com.google.zxing'
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url 'https://maven.google.com/'
+        name 'Google'
+    }
+    maven {
+        url "$projectDir/../../../../node_modules/react-native/android"
+    }
+}

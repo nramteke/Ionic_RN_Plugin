@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion project.ext.defaultCompileSdkVersion
+    buildToolsVersion project.ext.defaultBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion project.ext.defaultMinSdkVersion
+        targetSdkVersion project.ext.defaultTargetSdkVersion
+        ndk {
+            abiFilters "armeabi-v7a","x86"
+        }
+    }
+}
+
+dependencies {
+    compile "com.facebook.react:react-native:$project.ext.defaultReactNativeVersion"
+}
+
+repositories {
+    maven {
+        url "$projectDir/../../../../node_modules/react-native/android"
+    }
+}

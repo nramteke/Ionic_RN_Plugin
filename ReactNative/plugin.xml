@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin 
+	id="cordova.plugin.reactnative" 
+	version="0.0.1" 
+	xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<name>ReactNative</name>
+	<js-module name="ReactNative" src="www/ReactNative.js">
+		<clobbers target="cordova.plugins.ReactNative" />
+	</js-module>
+	<platform name="android">
+		<config-file parent="/*" target="res/xml/config.xml">
+			<feature name="ReactNative">
+				<param name="android-package" value="cordova.plugin.reactnative.ReactNative" />
+			</feature>
+			<feature name="MainApplication">
+				<param name="android-package" value="cordova.plugin.reactnative.MainApplication" />
+			</feature>
+		</config-file>
+
+		<!-- to add Application class that implements RectNativeAppication -->
+		<!-- <edit-config file="AndroidManifest.xml" target="/*/application" mode="merge">
+			<application android:name="cordova.plugin.reactnative.MainApplication" />
+		</edit-config> -->
+
+		<!-- to add React Actitiy Page in android.manifest file -->
+		<config-file parent="/*/application" target="AndroidManifest.xml">
+			<activity android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:label="ReactActivity" android:launchMode="singleTop" android:name="cordova.plugin.reactnative.ReactMainActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:windowSoftInputMode="adjustResize" />
+			<activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+		</config-file>
+
+		<!-- to add permissison in android.manifest -->
+		<config-file target="AndroidManifest.xml" parent="/manifest">
+			<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+			<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+			<uses-permission android:name="android.permission.CAMERA" />
+		</config-file>
+
+		<!-- to include android java files that triggers functionality   -->
+		<source-file src="src/android/ReactNative.java" target-dir="src/cordova/plugin/reactnative" />
+		<source-file src="src/android/MainApplication.java" target-dir="src/cordova/plugin/reactnative" />
+		<source-file src="src/android/ReactMainActivity.java" target-dir="src/cordova/plugin/reactnative" />
+		<source-file src="src/android/ReactNativeEventEmitter.java" target-dir="src/cordova/plugin/reactnative" />
+		<source-file src="src/android/ExternalAppLauncher.java" target-dir="src/cordova/plugin/reactnative" />
+		<source-file src="src/android/FirebaseManager.java" target-dir="src/cordova/plugin/reactnative" />
+		<source-file src="src/android/IonicNavigation.java" target-dir="src/cordova/plugin/reactnative" />
+		<source-file src="src/android/IonicReactPackage.java" target-dir="src/cordova/plugin/reactnative" />
+		<source-file src="src/android/GoogleFitManager.java" target-dir="src/cordova/plugin/reactnative" />
+		<source-file src="src/android/ActivityDataUploader.java" target-dir="src/cordova/plugin/reactnative" />
+		<resource-file src="src/android/images" target="res/drawable-port-mdpi" />
+		<resource-file src="src/android/index.android.bundle" target="assets" />
+		<resource-file src="src/android/fonts" target="assets/fonts" />
+		<resource-file src="src/android/html" target="res/raw" />
+
+		<!-- to add facebook react native library -->
+		<framework src="com.facebook.react:react-native:+" />
+		<framework src="com.google.android.gms:play-services-fitness:16.+" />
+		<framework src="com.google.android.gms:play-services-auth:16.+" />
+
+		<!-- to append extar settings/config in build.gradle file -->
+		<framework src="src/android/build-extras.gradle" custom="true" type="gradleReference" />
+ 		
+		<!-- to add external project -->
+		<framework src="react-native-projects/localization" custom="true" type="projectReference"/>
+		<framework src="react-native-projects/linear-gradient" custom="true" type="projectReference"/>
+		<framework src="react-native-projects/device-info" custom="true" type="projectReference"/>
+		<framework src="react-native-projects/image-picker" custom="true" type="projectReference"/>
+		<framework src="react-native-projects/image-resizer" custom="true" type="projectReference"/>
+		<framework src="react-native-projects/fbsdk" custom="true" type="projectReference"/>
+
+		<!-- to add application android:name in mainfest file-->
+		<hook type="after_plugin_install" src="src/android/add-main-application-class.js" />
+		
+		<hook type="after_plugin_install" src="src/android/android-after-plugin-install.js" />
+
+	</platform>
+	<platform name="ios">
+		<config-file parent="/*" target="config.xml">
+			<feature name="ReactNative">
+				<param name="ios-package" value="ReactNative" />
+			</feature>
+		</config-file>
+		<header-file src="src/ios/Bridging-Header.h" />
+		<source-file src="src/ios/ReactNative.m" />
+		<source-file src="src/ios/HealthKitManager.swift" />
+		<source-file src="src/ios/HealthKitManagerBridge.m" />
+		<source-file src="src/ios/FirebaseManager.swift" />
+		<source-file src="src/ios/FirebaseManagerBridge.m" />
+		<header-file src="src/ios/KeychainItemWrapper/KeychainItemWrapper.h" />
+        <source-file src="src/ios/KeychainItemWrapper/KeychainItemWrapper.m" />
+		<header-file src="src/ios/ReactNativeEventEmitter.h" />
+		<source-file src="src/ios/ReactNativeEventEmitter.m" />
+		<resource-file src="src/ios/CircularStd-Bold.otf" />
+		<resource-file src="src/ios/CircularStd-Book.otf" />
+		<resource-file src="src/ios/CircularStd-Medium.otf" />
+		<resource-file src="src/ios/ErgoCom-MediumCondensed.otf" />
+		<resource-file src="src/ios/PSLKittithadaPro.otf" />
+		<resource-file src="src/ios/PSLKittithadaProBold.otf" />
+		<resource-file src="src/ios/assets" />
+		<framework src="HealthKit.framework" weak="true" />
+		<config-file target="*-Info.plist" parent="UIViewControllerBasedStatusBarAppearance">
+			<false/>
+		</config-file>
+		<config-file target="*-Info.plist" parent="UIAppFonts">
+			<array>
+				<string>CircularStd-Book.otf</string>
+				<string>CircularStd-Bold.otf</string>
+				<string>CircularStd-Medium.otf</string>
+				<string>ErgoCom-MediumCondensed.otf</string>
+				<string>PSLKittithadaPro.otf</string>
+				<string>PSLKittithadaProBold.otf</string>
+			</array>
+		</config-file>
+		<config-file target="*-Info.plist" parent="NSHealthShareUsageDescription">
+			<string>We need to access your activity data to compute your activity score</string>
+		</config-file>
+		<config-file target="*-Info.plist" parent="NSHealthUpdateUsageDescription">
+			<string>We need to access your activity data to compute your activity score</string>
+		</config-file>
+		<config-file target="*-Info.plist" parent="FacebookAppID">
+			<string>1211974458842671</string>
+		</config-file>
+		<config-file target="*-Info.plist" parent="FacebookDisplayName">
+			<string>ActiveLife</string>
+		</config-file>
+		<config-file target="*-Info.plist" parent="CFBundleURLTypes">
+			<array>
+				<dict>
+					<key>CFBundleTypeRole</key>
+					<string>Editor</string>
+					<key>CFBundleURLSchemes</key>
+					<array>
+						<string>fb1211974458842671</string>
+						<string>activelife</string>
+					</array>
+				</dict>
+			</array>
+		</config-file>
+		<config-file target="SCBLIFE/Entitlements-Debug.plist" parent="com.apple.developer.healthkit">
+			<true/>
+		</config-file>
+		<config-file target="SCBLIFE/Entitlements-Release.plist" parent="com.apple.developer.healthkit">
+			<true/>
+		</config-file>
+		<hook type="before_plugin_install" src="src/ios/ios-after-plugin-install.js" />
+	</platform>
+</plugin>

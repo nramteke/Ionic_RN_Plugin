@@ -1,0 +1,45 @@
+// to add react-native path
+allprojects {
+    repositories {
+        maven {
+            url "$rootDir/../../node_modules/react-native/android"
+        }
+    }
+}
+
+project.ext.react = [
+        // the entry file for bundle generation
+        entryFile: "index.js",
+        root: "../../../"
+]
+
+apply from: "$rootDir/../../node_modules/react-native/react.gradle"
+
+android{
+
+defaultConfig {
+        applicationId "th.co.scblife.easy"
+        minSdkVersion project.ext.defaultMinSdkVersion
+        targetSdkVersion project.ext.defaultTargetSdkVersion
+        ndk {
+            abiFilters "armeabi-v7a","x86"
+        }
+    }
+    splits {
+        abi {
+            // If true, also generate a universal APK
+            universalApk false 
+            include "armeabi-v7a","x86"
+        }
+    }
+    
+    // applicationVariants are e.g. debug, release
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            // For each separate APK per architecture, set a unique version code as described here:
+            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
+            def versionCodes = ["armeabi-v7a":1, "x86":2]
+        }
+    }
+
+}

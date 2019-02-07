@@ -1,0 +1,56 @@
+import groovy.json.JsonSlurper
+
+def computeVersionName() {
+    // dynamically retrieve version from package.json
+    def slurper = new JsonSlurper()
+    def json = slurper.parse(file('../package.json'), "utf-8")
+    return json.version
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:$project.ext.defaultGradleBuildToolsVersion"
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion project.ext.defaultCompileSdkVersion
+    buildToolsVersion project.ext.defaultBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion project.ext.defaultMinSdkVersion
+        targetSdkVersion project.ext.defaultTargetSdkVersion
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "$projectDir/../../../../node_modules/react-native/android"
+    }
+}
+
+dependencies {
+    compile "com.facebook.react:react-native:$project.ext.defaultReactNativeVersion"
+    compile "com.android.support:appcompat-v7:$project.ext.defaultAppCompatVersion"
+    
+    testCompile "junit:junit:4.12"
+    testCompile "org.assertj:assertj-core:2.6.0"
+    testCompile "org.robolectric:robolectric:3.3.2"
+
+    testCompile "org.easytesting:fest-assert-core:${FEST_ASSERT_CORE_VERSION}"
+    testCompile "org.powermock:powermock-api-mockito:${POWERMOCK_VERSION}"
+    testCompile "org.powermock:powermock-module-junit4-rule:${POWERMOCK_VERSION}"
+    testCompile "org.powermock:powermock-classloading-xstream:${POWERMOCK_VERSION}"
+    testCompile "org.mockito:mockito-core:${MOCKITO_CORE_VERSION}"
+}
